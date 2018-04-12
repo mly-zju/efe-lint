@@ -67,5 +67,10 @@ module.exports = arr => {
         }
     });
 
-    len && step();
+    if (len) {
+        step();
+    }
+    else {
+        process.exit(0);
+    }
 };
