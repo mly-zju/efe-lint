@@ -18,6 +18,10 @@ function fileScan(filePath = './') {
     if (ignoreReg.test(filePath)) {
         return;
     }
+    if (fs.statSync(filePath).isFile()) {
+        fileArr.push(filePath);
+        return;
+    }
     let files = fs.readdirSync(filePath);
     files.forEach(file => {
         let inFilePath = path.join(filePath, file);
