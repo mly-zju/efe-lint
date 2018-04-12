@@ -69,7 +69,7 @@ class SanChecker {
                 }
                 // 修改文件名
                 if (ele.indexOf('current-file.js') !== -1) {
-                    ele = ele.replace('current-file.js', filePath.slice(2));
+                    ele = ele.replace('current-file.js', filePath);
                 }
                 let reg = /line\s+(\d+)\,/;
                 ele = ele.replace(reg, function (...args) {
@@ -113,6 +113,11 @@ class SanChecker {
     run() {
         if (path.extname(this.filePath) !== '.san') {
             throw new Error('file type not supported!');
+        }
+
+        if (!fs.existsSync(this.filePath)) {
+            broker.emit('single_finish', true, []);
+            return;
         }
         let dealStream = this.createDealStream();
 

@@ -12,6 +12,13 @@
     "csshint",
     "htmlhint"
   ],
+  "bin": {
+    "efe-lint": "index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mly-zju/efe-lint"
+  },
   "author": "mly-zju",
   "license": "ISC",
   "dependencies": {

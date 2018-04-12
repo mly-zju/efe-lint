@@ -13,7 +13,7 @@ let fileArr = [];
  *
  * @param {string} filePath 需要遍历的文件路径
  */
-function fileScan(filePath) {
+function fileScan(filePath = './') {
     let ignoreReg = /^(\.git|\.vscode|node_modules)/;
     if (ignoreReg.test(filePath)) {
         return;

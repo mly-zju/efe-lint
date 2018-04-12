@@ -19,6 +19,11 @@ function commonCheck(filePath) {
         throw new Error('file type not supported!');
     }
 
+    if (!fs.existsSync(filePath)) {
+        broker.emit('single_finish', true, []);
+        return;
+    }
+
     log.init();
     let buf = fs.readFileSync(filePath);
     let options = {
@@ -28,7 +33,7 @@ function commonCheck(filePath) {
     fecs.check(options, (success, error) => {
         let info = log.getCache();
         if (info.length) {
-            info[0] = info[0].replace('current-file.js', filePath.slice(2));
+            info[0] = info[0].replace('current-file.js', filePath);
         }
         log.recover();
         broker.emit('single_finish', success, info);

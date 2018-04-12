@@ -1,10 +1,8 @@
 /**
- * @file 入口函数
+ * @file 根据一个path数组，一一进行校验并输出结果
  * @author malingyang@foxmail.com
  */
 
-let getDiff = require('./utils/getDiff');
-let getAll = require('./utils/getAll');
 let logColor = require('./utils/logColor');
 let commonCheck = require('../src/check/commonCheck');
 let SanCheck = require('../src/check/sanCheck');
@@ -12,8 +10,7 @@ let broker = require('../src/broker');
 let path = require('path');
 let os = require('os');
 
-getDiff()
-.then(arr => {
+module.exports = arr => {
     let len = arr.length;
     let current = 0;
     let errArr = [];
@@ -51,7 +48,19 @@ getDiff()
 
         current++;
         if (current === len) {
-            console.log(errArr);
+            if (errArr.length) {
+                logColor.blue('**************************************************************************************');
+                logColor.red('没有通过fecs代码检测，请修改ERROR!');
+                logColor.red('代码不规范的文件路径有:');
+                errArr.forEach(ele => {
+                    console.log(ele);
+                });
+                logColor.blue('**************************************************************************************');
+                process.exit(1);
+            }
+            else {
+                process.exit(0);
+            }
         }
         else {
             step();
@@ -59,5 +68,4 @@ getDiff()
     });
 
     step();
-
-});
+};
