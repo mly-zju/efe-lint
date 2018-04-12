@@ -67,5 +67,5 @@ module.exports = arr => {
         }
     });
 
-    step();
+    len && step();
 };
