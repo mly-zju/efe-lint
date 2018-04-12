@@ -1,0 +1,21 @@
+{
+  "name": "efe-lint",
+  "version": "1.0.0",
+  "description": "A progressive code style check tool which supports .html/.css/.js/.san",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "san",
+    "jslint",
+    "csshint",
+    "htmlhint"
+  ],
+  "author": "mly-zju",
+  "license": "ISC",
+  "dependencies": {
+    "fecs": "^1.5.5",
+    "split": "^1.0.1"
+  }
+}

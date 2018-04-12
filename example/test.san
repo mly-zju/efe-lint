@@ -1,0 +1,187 @@
+/**
+* @file 评估详情列表组件
+* @author malingyang
+*/
+
+<template>
+    <section class="article-table">
+        <div class="table-wrapper-detail">
+            <ui-table class="sm-table-hoverable">
+                <ui-thead slot="header">
+                    <ui-tr>
+                        <ui-th>序号</ui-th>
+                        <ui-th>nid</ui-th>
+                        <ui-th>标题</ui-th>
+                        <ui-th>召回att</ui-th>
+                        <ui-th>发布时间</ui-th>
+                        <ui-th>一级分类</ui-th>
+                        <ui-th>二级分类</ui-th>
+                        <ui-th>输出系统</ui-th>
+                        <ui-th>推荐来源</ui-th>
+                        <ui-th>推荐满意度</ui-th>
+                        <ui-th>不满意原因</ui-th>
+                        <ui-th>是否点击</ui-th>
+                        <ui-th>点击原因</ui-th>
+                        <ui-th>未点击原因</ui-th>
+                        <ui-th>阅读完成</ui-th>
+                        <ui-th>阅读满意度</ui-th>
+                        <ui-th>互动动作</ui-th>
+                    </ui-tr>
+                </ui-thead>
+                <ui-tbody>
+                    <ui-tr san-for="item, index in list">
+                        <ui-td>{{index + 1}}</ui-td>
+                        <ui-td><a href="{{'http://fdebug.baidu.com/zpNewInfo?nid='+item.nid+'&s=1'}}"
+                                  target="_blank">{{item.nid}}</a></ui-td>
+                        <ui-td><a href="javascript:void(0)" on-click="checkVisual($event, index)">{{item.title}}</a>
+                        </ui-td>
+                        <ui-td>{{item.attention}}</ui-td>
+                        <ui-td>{{item.publicTime}}</ui-td>
+                        <ui-td>{{item.firstClass}}</ui-td>
+                        <ui-td>{{item.secondClass}}</ui-td>
+                        <!--<ui-td>{{item.markName}}</ui-td>-->
+                        <ui-td>{{item.recSrcName}}</ui-td>
+                        <ui-td>{{item.nTypeName}}</ui-td>
+                        <ui-td>
+                            <ui-chip detail="{{item.sTotalMark}}">
+                                {{item.sTotal == 0 ? '' : item.sTotal == 1 ? '惊喜' : item.sTotal == 2 ? '满意' : item.sTotal == 3 ? '还行' : item.sTotal == 4 ? '不满意' : '反感'}}
+                            </ui-chip>
+                        </ui-td>
+                        <ui-td class="td-notSatisfy">
+                            <ui-chip
+                                detail="{{item.notSatisfyMark}}"
+                                san-for="key in item.notSatisfy">
+                                {{notSatisfyMap[key]}}
+                            </ui-chip>
+                        </ui-td>
+
+                        <ui-td>{{item.click == 1 ? '是' : '否'}}</ui-td>
+                        <!--<ui-td>-->
+                        <!--<ui-chip detail="{{item.whyClickMark}}">-->
+                        <!--{{item.whyClick == 0 ? '' : item.whyClick == 1 ? '主题感兴趣' : item.whyClick == 2 ? '配图吸引' : item.whyClick == 3 ? '标题好奇' : '其他'}}-->
+                        <!--</ui-chip>-->
+                        <!--</ui-td>-->
+                        <ui-td class="td-whyClick">
+                            <ui-chip
+                                detail="{{item.whyClickMark}}"
+                                san-for="key in item.whyClick">
+                                {{whyClickMap[key]}}
+                            </ui-chip>
+                        </ui-td>
+                        <ui-td class="td-whyNotClick">
+                            <ui-chip
+                                detail="{{item.whyNotClickMark}}"
+                                san-for="key in item.whyNotClick">
+                                {{whyNotClickMap[key]}}
+                            </ui-chip>
+                        </ui-td>
+                        <ui-td>
+                            <ui-chip detail="{{item.finishReadMark}}">
+                                {{item.finishRead == 0 ? '' : item.finishRead == 1 ? '是' : '否'}}
+                            </ui-chip>
+                        </ui-td>
+                        <ui-td>
+                            <ui-chip detail="{{item.sDetailMark}}">
+                                {{item.sDetail == 0 ? '' : item.sDetail == 1 ? '是' : '否'}}
+                            </ui-chip>
+                        </ui-td>
+                        <ui-td>{{item.nAction}}</ui-td>
+                    </ui-tr>
+                </ui-tbody>
+            </ui-table>
+        </div>
+    </section>
+</template>
+
+<script>
+import {Table, THead, TR, TH, TBody, TD} from 'san-mui/lib/Table';
+import {Button, Chip} from 'san-mui';
+import ListChip from './ListChip';
+import {Link} from 'san-router';
+
+export default {
+    components: {
+        'ui-table': Table,
+        'ui-thead': THead,
+        'ui-tr': TR,
+        'ui-th': TH,
+        'ui-tbody': TBody,
+        'ui-td': TD,
+        'ui-button': Button,
+        'ui-chip': ListChip
+    },
+    initData() {
+        return {
+            whyNotClickMap: {
+                '1': '不是兴趣点',
+                '2': '是兴趣点，但此篇内容不喜欢',
+                '3': '已经通过其他渠道了解',
+                '4': '相似题材反复推',
+                '5': '标题不吸引',
+                '6': '配图不吸引',
+                '7': '看标题／配图就大概明白',
+                '8': '忽略了',
+                '9': '其他'
+            },
+            notSatisfyMap: {
+                '1': '不感兴趣',
+                '2': '已经通过其他渠道了解',
+                '3': '相似题材反复推',
+                '4': '过期旧闻',
+                '5': '格调不符（比如low）',
+                '6': '配图不满',
+                '7': '标题不满',
+                '8': '不喜欢该类型资源（视频/问答等）',
+                '9': '其他'
+            },
+            whyClickMap: {
+                '1': '是兴趣点',
+                '2': '不是兴趣，但好奇',
+                '3': '热点',
+                '4': '最新资讯',
+                '5': '配图吸引',
+                '6': '标题吸引',
+                '7': '近期关注',
+                '8': '实用帖',
+                '9': '其他'
+            }
+        };
+    },
+    toggleAvail(e, index) {
+        let id = this.data.get('list')[index].id;
+        let status = this.data.get('list')[index].status;
+        let para = {
+            id: id,
+            v: status
+        };
+        this.fire('toggleAvail', para);
+    },
+    checkDetail(e, index) {
+        let id = this.data.get('list')[index].id;
+        this.fire('checkDetail', id);
+    },
+    checkVisual(e, index) {
+        this.fire('checkVisual', index);
+    }
+};
+</script>
+<style lang="stylus">
+.article-table
+    width: 100%
+    overflow-x: auto
+    margin-top: 20px
+    table
+        table-layout: auto
+        button
+            font-size: 12px
+        .adjust-rank-button
+            width: 95px
+        .adjust-level-button
+            width: 55px
+
+.table-wrapper-detail
+    min-width: 2000px
+    width: 100%
+    th
+        white-space: nowrap
+</style>
