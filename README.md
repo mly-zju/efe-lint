@@ -19,7 +19,7 @@ cd your-project
 efe-lint
 ```
 
-`efe-lint`默认会对当前目录下所有html/css/js/.san文件进行代码规范检测，并有如下的输出结果：
+`efe-lint`默认会对当前目录下所有html/css/js/.san文件进行代码规范检测，并有如下的输出结果：
 
 ![img](./demo.png)
 
