@@ -1,6 +1,6 @@
 ## efe-lint: Yet another fecs
 
-efe-lint是一款代码规范检测工具，基于fecs, 在fecs的基础上，增加了对于.san文件中js规范的支持，并支持渐进式检测。
+efe-lint是一款代码规范检测工具，基于fecs, 在fecs的基础上，支持了渐进式检测。
 
 ## install
 
