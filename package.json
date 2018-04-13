@@ -1,6 +1,6 @@
 {
   "name": "efe-lint",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "A progressive code style check tool which supports .html/.css/.js/.san",
   "main": "index.js",
   "scripts": {
@@ -22,7 +22,6 @@
   "author": "mly-zju",
   "license": "ISC",
   "dependencies": {
-    "fecs": "^1.5.5",
     "split": "^1.0.1"
   }
 }
