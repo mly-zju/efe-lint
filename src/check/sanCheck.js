@@ -32,17 +32,12 @@ class SanChecker {
         let {startLine, cursor, bufCache, filePath} = this;
 
         let buf = Buffer.concat(bufCache);
-        let index = buf.indexOf('<script>');
-        let endIndex = buf.indexOf('</script>');
-        if (index === -1 || endIndex === -1) {
-            throw new Error('file is wrong');
-        }
         let noCheck = /\*\s+eslint-disable\s+\*/.test(buf);
 
         log.init();
         let options = {
             reporter: 'baidu',
-            string: buf.slice(index + 8, endIndex),
+            string: buf,
             type: 'js'
         };
         fecs.check(options, function (success, err) {
@@ -90,14 +85,24 @@ class SanChecker {
      * @return {Object} dealStream 处理可读流的可写流实例
      */
     createDealStream() {
+        let start = false;
+        let end = false;
         let dealStream = createWritable({
             write: (buf, enc, next) => {
                 if (buf.toString().indexOf('<script>') !== -1) {
                     this.startLine = this.cursor;
+                    start = true;
                 }
+                else if (buf.toString().indexOf('</script>') !== -1) {
+                    end = true;
+                }
+
+                if (start && !end && this.cursor - this.startLine > 0) {
+                    this.bufCache.push(buf);
+                    this.bufCache.push(Buffer.from(os.EOL));
+                }
+
                 this.cursor++;
-                this.bufCache.push(buf);
-                this.bufCache.push(Buffer.from(os.EOL));
                 next();
             }
         });
