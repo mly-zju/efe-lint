@@ -90,14 +90,14 @@ class SanChecker {
         let dealStream = createWritable({
             write: (buf, enc, next) => {
                 if (buf.toString().indexOf('<script>') !== -1) {
-                    this.startLine = this.cursor;
+                    this.startLine = this.cursor + 1;
                     start = true;
                 }
                 else if (buf.toString().indexOf('</script>') !== -1) {
                     end = true;
                 }
 
-                if (start && !end && this.cursor - this.startLine > 0) {
+                if (start && !end && this.cursor - this.startLine >= 0) {
                     this.bufCache.push(buf);
                     this.bufCache.push(Buffer.from(os.EOL));
                 }
