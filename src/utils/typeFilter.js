@@ -14,7 +14,7 @@ let path = require('path');
  */
 function filterPath(fileArr) {
     return fileArr.filter(ele => {
-        return fs.existsSync(ele) && ['.js', '.css', '.html', '.san'].indexOf(path.extname(ele)) !== -1;
+        return fs.existsSync(ele) && ['.js', '.css', '.html', '.san', '.styl', '.style', '.less'].indexOf(path.extname(ele)) !== -1;
     });
 }
 

@@ -9,14 +9,24 @@ let path = require('path');
 let log = require('../utils/logProxy');
 let broker = require('../broker');
 
+let typeMap = {
+    '.js': 'js',
+    '.css': 'css',
+    '.html': 'html',
+    '.styl': 'css',
+    '.style': 'css',
+    '.less': 'less'
+};
+
 /**
  * 检测代码
  *
  * @param {string} filePath 文件路径
  */
 function commonCheck(filePath) {
-    if (['.js', '.css', '.html'].indexOf(path.extname(filePath)) === -1) {
-        throw new Error('file type not supported!');
+    let fileType = path.extname(filePath);
+    if (!typeMap[fileType]) {
+        throw new Error('file type not supported');
     }
 
     if (!fs.existsSync(filePath)) {
@@ -28,12 +38,13 @@ function commonCheck(filePath) {
     let buf = fs.readFileSync(filePath);
     let options = {
         reporter: 'baidu',
-        string: buf
+        string: buf,
+        type: typeMap[fileType]
     };
     fecs.check(options, (success, error) => {
         let info = log.getCache();
         if (info.length) {
-            info[0] = info[0].replace('current-file.js', filePath);
+            info[0] = info[0].replace('current-file' + fileType, filePath);
         }
         log.recover();
         broker.emit('single_finish', success, info);
