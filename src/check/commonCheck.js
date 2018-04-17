@@ -13,8 +13,6 @@ let typeMap = {
     '.js': 'js',
     '.css': 'css',
     '.html': 'html',
-    '.styl': 'css',
-    '.style': 'css',
     '.less': 'less'
 };
 
